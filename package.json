@@ -9,7 +9,9 @@
     "serve-site": "cd react-address-book && npm run serve",
     "build-converter": "cd kotlin-converter && mvn package",
     "convert-xml": "java -jar kotlin-converter/target/kotlin-converter-1.0-SNAPSHOT-jar-with-dependencies.jar ab.xml ab.json",
-    "convert-json": "java -jar kotlin-converter/target/kotlin-converter-1.0-SNAPSHOT-jar-with-dependencies.jar ab.json test.xml"
+    "convert-json": "java -jar kotlin-converter/target/kotlin-converter-1.0-SNAPSHOT-jar-with-dependencies.jar ab.json test.xml",
+    "build-shuffle": "cd shuffle && mvn package",
+    "shuffle": "java -jar shuffle/target/shuffle-1.0-SNAPSHOT-jar-with-dependencies.jar"
   },
   "repository": {
     "type": "git",
