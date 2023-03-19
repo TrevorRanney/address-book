@@ -1,7 +1,18 @@
 # Address Book
 A sample code project for an interview with an address book in React and some Kotlin command line utilities
 
-## React App:
+## Building and Running:
+Prerequisites for running react site: `node/npm`  
+`npm run install-react-dependencies`  
+`npm run build-site`  
+`npm run serve-site`  
+
+Versions used:  
+npm 6.14.11  
+node v14.16.0  
+
+## Requirements:
+### React App:
 An address book application  
 - The data source is supplied in an XML file ab.xml  
 - The application should present the available contacts in two different views

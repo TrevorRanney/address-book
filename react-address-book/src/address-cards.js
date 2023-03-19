@@ -2,12 +2,11 @@ import React from 'react';
 
 const AddressCardsComponent = ({ addressBook }) => {
 	return (
-        <div>
-            <h1>Contact Cards:</h1>
-            <div class="outer">
+        <div className='contacts'>
+            <div className="outer">
                 {addressBook.map((contact) => (
-                    <div class="inner">
-                        <div key={contact.CustomerID} className="card">
+                    <div className="inner" key={contact.CustomerID}>
+                        <div className="card">
                             <h2>{contact.ContactName}</h2>
                             <p>Title: {contact.ContactTitle}</p>
                             <p>Company Name:  {contact.CompanyName}</p>

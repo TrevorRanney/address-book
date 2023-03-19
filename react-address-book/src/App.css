@@ -1,20 +1,72 @@
-.App {
+.dark {
   background-color: #222;
   color: #CCC;
 }
 
-button, input{
+.light {
+  color: #222;
+  background-color: #CCC;
+}
+
+button,
+input {
   background-color: #444;
   color: #EEE;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-  width: 300px;
+.filter {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.filter button,
+.filter input {
+  margin-left: 10px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.filter label {
+  vertical-align: sub;
+  font-size: 30px;
+}
+
+.light button,
+.light input {
+  color: #444;
+  background-color: #EEE;
+}
+
+.light-icon {
+  position: fixed;
+  right: 25px;
+  top: 25px;
+}
+
+.contacts {
+  overflow: auto;
+  height: calc(100vh - 87px);
+}
+
+.contacts table {
+  padding: 20px;
+  margin: auto;
+}
+
+.contacts::-webkit-scrollbar {
+  background-color: #454a4d;
+}
+
+.contacts::-webkit-scrollbar-thumb {
+  background-color: #111;
+}
+
+.light .contacts::-webkit-scrollbar {
+  background-color: #aaa;
+}
+
+.light .contacts::-webkit-scrollbar-thumb {
+  background-color: #ddd;
 }
 
 .card {
@@ -23,6 +75,16 @@ button, input{
   width: 100%;
   min-width: 300px;
   background-color: #444;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  width: 410px;
+  padding: 20px;
+}
+
+.light .card {
+  background-color: #eee;
+  border: 1px solid #444;
 }
 
 .outer {
@@ -30,7 +92,7 @@ button, input{
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .inner {
@@ -39,9 +101,10 @@ button, input{
   width: 27%;
   margin: 2%;
   min-width: 300px;
+  justify-content: space-around;
 }
 
-p{
+p {
   margin: 0;
 }
 

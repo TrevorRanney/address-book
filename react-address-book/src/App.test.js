@@ -3,7 +3,7 @@ import App from './App';
 
 test('renders Contact Table Page', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Contact Table:/i);
+  const linkElement = screen.getByText(/Show Card View/i);
   expect(linkElement).toBeInTheDocument();
 });
 

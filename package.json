@@ -4,7 +4,9 @@
   "description": "A sample code project for an interview with an address book in React and some Kotlin command line utilities",
   "main": "index.js",
   "scripts": {
-    "create-react": "create-react-app react-address-book",
+    "install-react-dependencies": "cd react-address-book && npm i",
+    "build-site": "cd react-address-book && npm run build",
+    "serve-site": "cd react-address-book && npm run serve",
     "convert-xml": "java -jar kotlin-converter/target/kotlin-converter-1.0-SNAPSHOT-jar-with-dependencies.jar ab.xml ab.json",
     "convert-json": "java -jar kotlin-converter/target/kotlin-converter-1.0-SNAPSHOT-jar-with-dependencies.jar ab.json test.xml"
   },

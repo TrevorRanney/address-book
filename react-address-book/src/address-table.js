@@ -2,8 +2,7 @@ import React from 'react';
 
 const ContactTable = ( {addressBook} ) => {
   return (
-    <div>
-      <h1>Contact Table:</h1>
+    <div className='contacts'>
 		<table>
 			<thead>
 			<tr>
