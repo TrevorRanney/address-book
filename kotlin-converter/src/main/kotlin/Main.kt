@@ -1,4 +1,5 @@
 
+import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
@@ -45,12 +46,23 @@ fun main(args: Array<String>) {
         // Jackson does not seem to read the root, so I fixed that by wrapping it in another root for it to skip :,(
         // https://stackoverflow.com/questions/36317162/get-jackson-xmlmapper-to-read-root-element-name
         val xmlString = "<tag>" + inputFile.readText() + "</tag>"
-        val jsonNode = jsonMapper.valueToTree<JsonNode>(xmlMapper.readTree(xmlString))
-        outputFile.writeText(jsonMapper.writeValueAsString(jsonNode))
+        try {
+            val jsonNode = jsonMapper.valueToTree<JsonNode>(xmlMapper.readTree(xmlString))
+            outputFile.writeText(jsonMapper.writeValueAsString(jsonNode))
+        } catch (e: JsonParseException) {
+            println("Invalid Schema")
+            return
+        }
     }
     else if(inputFile.extension == "json" && outputFile.extension == "xml"){
         val jsonString = inputFile.readText()
-        val tree = jsonMapper.readTree(jsonString)
+        val tree: JsonNode
+        try {
+            tree = jsonMapper.readTree(jsonString)
+        } catch (e: JsonParseException) {
+            println("Invalid Schema")
+            return
+        }
         if(jsonString.startsWith('[')){
             val jsonWithRoot = jsonMapper.createObjectNode()
             jsonWithRoot.set<JsonNode>("Contacts", tree)

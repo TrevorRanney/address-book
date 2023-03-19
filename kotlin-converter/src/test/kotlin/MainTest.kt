@@ -34,7 +34,6 @@ class XmlJsonConverterTest {
         xmlOutputFile.delete()
     }
 
-
     @Test
     fun testInvalidArgs() {
         val outputStream = ByteArrayOutputStream()
@@ -42,7 +41,52 @@ class XmlJsonConverterTest {
 
         main(arrayOf("test"))
 
-        assertEquals("Usage: convert <input-file> <output-file>\r\nInvalid Args", outputStream.toString().trim())
+        val newLine = System.getProperty("line.separator")
+        assertEquals("Usage: convert <input-file> <output-file>"+newLine+"Invalid Args", outputStream.toString().trim())
     }
 
+    @Test
+    fun testISourceFileDoesNotExist() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        main(arrayOf("test.xml", "text.json"))
+
+        val newLine = System.getProperty("line.separator")
+        assertEquals("Input file does not exist", outputStream.toString().substringBefore(newLine))
+    }
+
+    @Test
+    fun testInvalidXmlSchema() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        val xmlInputFile = File.createTempFile("test", ".xml")
+        xmlInputFile.writeText("<AddressBook><Contacts><Contact><Name>John</Name><Email>john@example.com</Email>")
+        val jsonOutputFile = File.createTempFile("test", ".json")
+
+        main(arrayOf(xmlInputFile.absolutePath, jsonOutputFile.absolutePath))
+
+        assertEquals("Invalid Schema", outputStream.toString().trim())
+
+        xmlInputFile.delete()
+        jsonOutputFile.delete()
+    }
+
+    @Test
+    fun testInvalidJsonSchema() {
+        val outputStream = ByteArrayOutputStream()
+        System.setOut(PrintStream(outputStream))
+
+        val jsonInputFile = File.createTempFile("test", ".json")
+        jsonInputFile.writeText("{\"AddressBook\":{\"Contacts\":{:{\"Name\":\"John\",\"Email\":\"john@example.com\"}")
+        val xmlOutputFile = File.createTempFile("test", ".xml")
+
+        main(arrayOf(jsonInputFile.absolutePath, xmlOutputFile.absolutePath))
+
+        assertEquals("Invalid Schema", outputStream.toString().trim())
+
+        jsonInputFile.delete()
+        xmlOutputFile.delete()
+    }
 }
