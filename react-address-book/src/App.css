@@ -1,0 +1,50 @@
+.App {
+  background-color: #222;
+  color: #CCC;
+}
+
+button{
+  background-color: #444;
+  color: #EEE;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  width: 300px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 300px;
+  background-color: #444;
+}
+
+.outer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+}
+
+.inner {
+  display: flex;
+  flex-direction: row;
+  width: 27%;
+  margin: 2%;
+  min-width: 300px;
+}
+
+p{
+  margin: 0;
+}
+
+th {
+  text-align: left;
+}
