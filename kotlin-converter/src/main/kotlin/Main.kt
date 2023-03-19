@@ -29,55 +29,71 @@ fun main(args: Array<String>) {
         return
     }
 
-    val inputFile = File(inputFileName)
-    val outputFile = File(outputFileName)
-
-    if (!inputFile.exists()) {
-        println("Input file does not exist")
-        println(inputFile.absolutePath)
+    if (!File(inputFileName).exists()) {
+        println("Input file not found: $inputFileName")
         return
     }
 
-    val xmlMapper = XmlMapper(XmlFactory())
-    xmlMapper.enable(SerializationFeature.INDENT_OUTPUT)
-    val jsonMapper = ObjectMapper()
+    convertFile(inputFileName, outputFileName)
+}
 
+fun convertFile(inputFileName: String, outputFileName: String) {
+    val inputFile = File(inputFileName)
+    val outputFile = File(outputFileName)
+
+    val fileText = inputFile.readText()
+    val convertedText: String?
     if(inputFile.extension == "xml" && outputFile.extension == "json"){
-        // Jackson does not seem to read the root, so I fixed that by wrapping it in another root for it to skip :,(
-        // https://stackoverflow.com/questions/36317162/get-jackson-xmlmapper-to-read-root-element-name
-        val xmlString = "<tag>" + inputFile.readText() + "</tag>"
-        try {
-            val jsonNode = jsonMapper.valueToTree<JsonNode>(xmlMapper.readTree(xmlString))
-            outputFile.writeText(jsonMapper.writeValueAsString(jsonNode))
-        } catch (e: JsonParseException) {
-            println("Invalid Schema")
-            return
-        }
+        convertedText = convertXmlToJson(fileText)
     }
     else if(inputFile.extension == "json" && outputFile.extension == "xml"){
-        val jsonString = inputFile.readText()
-        val tree: JsonNode
-        try {
-            tree = jsonMapper.readTree(jsonString)
-        } catch (e: JsonParseException) {
-            println("Invalid Schema")
-            return
-        }
-        if(jsonString.startsWith('[')){
-            val jsonWithRoot = jsonMapper.createObjectNode()
-            jsonWithRoot.set<JsonNode>("Contacts", tree)
-            val xmlString = xmlMapper.writeValueAsString(jsonWithRoot)
-            outputFile.writeText(xmlString)
-        }
-        else{
-            val xmlString = xmlMapper.writeValueAsString(tree)
-            //The substring removes the <ObjectNode>; this could probably be done with a custom mapper
-           outputFile.writeText(xmlString.substring(16, xmlString.length-16))
-        }
+        convertedText = convertJsonToXml(fileText)
     }
     else {
+        convertedText = null
         println("input file must be xml and output file json, or input file must be json and output xml")
     }
 
-    println("Converted $inputFileName to $outputFileName")
+    if(convertedText != null){
+        outputFile.writeText(convertedText)
+        println("Converted $inputFileName to $outputFileName")
+    }
+}
+
+fun convertXmlToJson(fileText: String): String? {
+    val xmlMapper = XmlMapper(XmlFactory())
+    val jsonMapper = ObjectMapper()
+    // Jackson does not seem to read the root, so I fixed that by wrapping it in another root for it to skip :,(
+    // https://stackoverflow.com/questions/36317162/get-jackson-xmlmapper-to-read-root-element-name
+    val xmlString = "<tag>$fileText</tag>"
+    return try {
+        val jsonNode = jsonMapper.valueToTree<JsonNode>(xmlMapper.readTree(xmlString))
+        jsonMapper.writeValueAsString(jsonNode)
+    } catch (e: JsonParseException) {
+        println("Invalid Schema")
+        null
+    }
+}
+
+fun convertJsonToXml(fileText: String): String? {
+    val xmlMapper = XmlMapper(XmlFactory())
+    xmlMapper.enable(SerializationFeature.INDENT_OUTPUT)
+    val jsonMapper = ObjectMapper()
+    val tree: JsonNode
+    try {
+        tree = jsonMapper.readTree(fileText)
+    } catch (e: JsonParseException) {
+        println("Invalid Schema")
+        return null
+    }
+    return if(fileText.startsWith('[')){
+        val jsonWithRoot = jsonMapper.createObjectNode()
+        jsonWithRoot.set<JsonNode>("Contacts", tree)
+        xmlMapper.writeValueAsString(jsonWithRoot)
+    }
+    else{
+        val xmlString = xmlMapper.writeValueAsString(tree)
+        //The substring removes the <ObjectNode>; this could probably be done with a custom mapper
+        xmlString.substring(16, xmlString.length-16)
+    }
 }

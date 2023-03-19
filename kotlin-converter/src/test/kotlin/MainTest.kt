@@ -53,7 +53,7 @@ class XmlJsonConverterTest {
         main(arrayOf("test.xml", "text.json"))
 
         val newLine = System.getProperty("line.separator")
-        assertEquals("Input file does not exist", outputStream.toString().substringBefore(newLine))
+        assertEquals("Input file not found: test.xml", outputStream.toString().substringBefore(newLine))
     }
 
     @Test
