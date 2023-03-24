@@ -35,6 +35,20 @@ class XmlJsonConverterTest {
     }
 
     @Test
+    fun testConvertXmlToJson() {
+        val xml = "<AddressBook><Contacts><Contact><Name>John</Name><Email>john@example.com</Email></Contact></Contacts></AddressBook>"
+        val jsonOutput = convertXmlToJson(xml)
+        assertEquals("{\"AddressBook\":{\"Contacts\":{\"Contact\":{\"Name\":\"John\",\"Email\":\"john@example.com\"}}}}", jsonOutput)
+    }
+
+    @Test
+    fun testConvertJsonToXml() {
+        val json = "{\"AddressBook\":{\"Contacts\":{\"Contact\":{\"Name\":\"John\",\"Email\":\"john@example.com\"}}}}"
+        val xml = convertJsonToXml(json)
+        assertEquals("<AddressBook><Contacts><Contact><Name>John</Name><Email>john@example.com</Email></Contact></Contacts></AddressBook>", xml!!.replace("\\s".toRegex(), ""))
+    }
+
+    @Test
     fun testInvalidArgs() {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))

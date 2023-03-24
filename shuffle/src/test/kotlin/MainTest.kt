@@ -43,6 +43,13 @@ class ShuffleTest {
     }
 
     @Test
+    fun testInvalidShuffles() {
+        assertEquals("INCORRECT", isLegitimateShuffle("TOURNAMENT", "RANGE", "OURA"))
+        assertEquals("INCORRECT", isLegitimateShuffle("TOURNAMENT", "RANGE", "TOURA"))
+        assertEquals("INCORRECT", isLegitimateShuffle("TOURNAMENT", "RANGE", "TOURANGE"))
+    }
+
+    @Test
     fun testInvalidFile() {
         val outputStream = ByteArrayOutputStream()
         System.setOut(PrintStream(outputStream))
