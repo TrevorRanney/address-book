@@ -1,4 +1,5 @@
 import java.io.File
+import java.lang.Math.min
 
 fun main(args: Array<String>) {
     if (args.size == 3) {
@@ -43,14 +44,29 @@ fun writeOutputFile(results: String){
     println("Results available in output.txt")
 }
 
+
 fun isLegitimateShuffle(word1: String, word2: String, shuffle: String): String {
-    var i = 0
-    var j = 0
-    for (k in shuffle.indices) {
-        if (i < word1.length && shuffle[k] == word1[i]) {
-            i++
-        } else if (j < word2.length && shuffle[k] == word2[j]) {
-            j++
+    var word1Position = 0
+    var word2Position = 0
+
+    if(shuffle[0] != word1[0] &&
+        shuffle[0] != word2[0]){
+        val possibleWord1StartPosition = word1.indexOf(shuffle[0])
+        val possibleWord2StartPosition = word1.indexOf(shuffle[0])
+        if(possibleWord1StartPosition != -1){
+            word1Position = possibleWord1StartPosition
+        }
+        else if(possibleWord2StartPosition != -1){
+            word2Position = possibleWord2StartPosition
+        }
+    }
+
+    for (shufflePosition in shuffle.indices) {
+        println(word1[min(word1Position, word1.length-1)] + " " + word2[min(word2Position, word2.length-1)] + " " + shuffle[min(shufflePosition, shuffle.length-1)])
+        if (word1Position < word1.length && shuffle[shufflePosition] == word1[word1Position]) {
+            word1Position++
+        } else if (word2Position < word2.length && shuffle[shufflePosition] == word2[word2Position]) {
+            word2Position++
         } else {
             return "INCORRECT"
         }

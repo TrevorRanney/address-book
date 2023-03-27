@@ -11,16 +11,7 @@ class ShuffleTest {
     fun testCommandLine() {
         val outputFile = File("output.txt")
         outputFile.delete()
-
-        main(arrayOf("cat", "bat", "cbaatt"))
-        assertEquals("CORRECT", outputFile.readText().trim())
-
-        main(arrayOf("car", "bar", "cbarar"))
-        assertEquals("CORRECT", outputFile.readText().trim())
-
-        main(arrayOf("rat", "tat", "tatart"))
-        assertEquals("INCORRECT", outputFile.readText().trim())
-
+        
         main(arrayOf("TOURNAMENT", "DINNER", "DINTOUR"))
         assertEquals("CORRECT", outputFile.readText().trim())
     }
@@ -43,10 +34,15 @@ class ShuffleTest {
     }
 
     @Test
-    fun testInvalidShuffles() {
+    fun testShuffles() {
         assertEquals("INCORRECT", isLegitimateShuffle("TOURNAMENT", "RANGE", "OURA"))
         assertEquals("INCORRECT", isLegitimateShuffle("TOURNAMENT", "RANGE", "TOURA"))
         assertEquals("INCORRECT", isLegitimateShuffle("TOURNAMENT", "RANGE", "TOURANGE"))
+        assertEquals("INCORRECT", isLegitimateShuffle("rat", "tat", "tatart"))
+
+        assertEquals("CORRECT", isLegitimateShuffle("CAT", "BAT", "CBAATT"))
+        assertEquals("CORRECT", isLegitimateShuffle("car", "bar", "cbarar"))
+        assertEquals("CORRECT", isLegitimateShuffle("TOURNAMENT", "GAME", "OURNAMEGAM"))
     }
 
     @Test
